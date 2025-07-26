@@ -4,9 +4,7 @@
 from __future__ import annotations
 
 import argparse
-import json
 import logging
-from typing import Optional
 
 from fastmcp import FastMCP
 
@@ -65,7 +63,7 @@ def _is_movie_watched(title: str, config: Config) -> bool:
 
         plex = PlexService(config.plex_config)
         try:
-            statuses.append(plex.is_movie_watched(title))
+           statuses.append(plex.is_movie_watched(title))
         except Exception as exc:  # pragma: no cover
             logger.error("Plex movie check failed for %s: %s", title, exc)
     return any(statuses)
@@ -82,7 +80,7 @@ class RadarrSonarrMCPServer:
         self.config = config
         self.server = FastMCP(
             name="radarr-sonarr-mcp-server",
-            description="MCP Server for Radarr and Sonarr media management",
+            instructions="MCP Server for Radarr and Sonarr media management",
         )
         self.sonarr_service = SonarrService(config.sonarr_config)
         self._register_tools()
@@ -92,10 +90,10 @@ class RadarrSonarrMCPServer:
     def _register_tools(self) -> None:
         @self.server.tool()
         def get_available_series(
-            year: Optional[int] = None,
-            downloaded: Optional[bool] = None,
-            watched: Optional[bool] = None,
-            actors: Optional[str] = None,
+            year: int | None = None,
+            downloaded: bool | None = None,
+            watched: bool | None = None,
+            actors: str | None = None,
         ) -> dict:
             """Return series from Sonarr with optional filters."""
 
@@ -134,7 +132,7 @@ class RadarrSonarrMCPServer:
                         for cast in s.data.get("credits", {}).get("cast", [])
                     )
                 ]
-            return json.dumps({
+            return {
                 "count": len(filtered),
                 "series": [
                     {
@@ -149,13 +147,13 @@ class RadarrSonarrMCPServer:
                     }
                     for s in filtered
                 ],
-            })
+            }
 
         @self.server.tool()
         def lookup_series(term: str) -> dict:
             service = SonarrService(self.config.sonarr_config)
             results = service.lookup_series(term)
-            return json.dumps({
+            return {
                 "count": len(results),
                 "series": [
                     {
@@ -166,14 +164,14 @@ class RadarrSonarrMCPServer:
                     }
                     for s in results
                 ],
-            })
+            }
 
         @self.server.tool()
         def get_available_movies(
-            year: Optional[int] = None,
-            downloaded: Optional[bool] = None,
-            watched: Optional[bool] = None,
-            actors: Optional[str] = None,
+            year: int | None = None,
+            downloaded: bool | None = None,
+            watched: bool | None = None,
+            actors: str | None = None,
         ) -> dict:
             """Return movies from Radarr with optional filters."""
 
@@ -203,7 +201,7 @@ class RadarrSonarrMCPServer:
                         for cast in m.data.get("credits", {}).get("cast", [])
                     )
                 ]
-            return json.dumps({
+            return {
                 "count": len(filtered),
                 "movies": [
                     {
@@ -218,7 +216,7 @@ class RadarrSonarrMCPServer:
                     }
                     for m in filtered
                 ],
-            })
+            }
 
     # ------------------------------------------------------------------
     def _register_resources(self) -> None:
