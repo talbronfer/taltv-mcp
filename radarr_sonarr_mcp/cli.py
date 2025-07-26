@@ -3,7 +3,15 @@
 import argparse
 import logging
 
-from .config import Config, NasConfig, RadarrConfig, SonarrConfig, ServerConfig, load_config, save_config
+from .config import (
+    Config,
+    NasConfig,
+    RadarrConfig,
+    SonarrConfig,
+    ServerConfig,
+    load_config,
+    save_env,
+)
 from .server import create_server
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -84,9 +92,9 @@ def configure():
         )
     )
     
-    # Save config
-    save_config(new_config)
-    logging.info("Configuration saved successfully!")
+    # Save config to .env file
+    save_env(new_config)
+    logging.info("Configuration saved successfully to .env")
     logging.info(f"To start the server, run: radarr-sonarr-mcp start")
     
     return new_config
