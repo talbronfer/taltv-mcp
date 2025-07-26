@@ -82,7 +82,7 @@ class RadarrSonarrMCPServer:
         self.config = config
         self.server = FastMCP(
             name="radarr-sonarr-mcp-server",
-            description="MCP Server for Radarr and Sonarr media management",
+            instructions="MCP Server for Radarr and Sonarr media management",
         )
         self.sonarr_service = SonarrService(config.sonarr_config)
         self._register_tools()

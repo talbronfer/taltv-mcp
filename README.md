@@ -168,10 +168,10 @@ For quick development and testing:
 python run.py
 ```
 
-## Requirements
+-## Requirements
 
-- Python 3.7+
-- FastMCP
+- Python 3.10+
+- FastMCP >= 2.2.4
 - Requests
 - Pydantic
 
