@@ -6,6 +6,10 @@ from dataclasses import dataclass
 from typing import Any
 import json
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from a .env file if present
+load_dotenv()
 
 
 def _default_ip() -> str:
@@ -127,4 +131,20 @@ def save_config(config: Config, path: str = "config.json") -> None:
     }
     with open(path, "w") as f:
         json.dump(data, f, indent=2)
+
+
+def save_env(config: Config, path: str = ".env") -> None:
+    """Save configuration to an environment file."""
+    lines = [
+        f"NAS_IP={config.nas_config.ip}",
+        f"RADARR_PORT={config.radarr_config.port}",
+        f"SONARR_PORT={config.sonarr_config.port}",
+        f"RADARR_API_KEY={config.radarr_config.api_key}",
+        f"RADARR_BASE_PATH={config.radarr_config.base_path}",
+        f"SONARR_API_KEY={config.sonarr_config.api_key}",
+        f"SONARR_BASE_PATH={config.sonarr_config.base_path}",
+        f"MCP_SERVER_PORT={config.server_config.port}",
+    ]
+    with open(path, "w") as f:
+        f.write("\n".join(lines) + "\n")
 

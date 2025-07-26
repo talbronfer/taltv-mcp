@@ -63,28 +63,18 @@ The configuration wizard will guide you through setting up:
 - Sonarr API key and port
 - MCP server port
 
-You can also manually edit the `config.json` file:
+Configuration values are stored in a `.env` file. You can create or edit this file manually.
+An example `.env` looks like:
 
-```json
-{
-  "nasConfig": {
-    "ip": "10.0.0.23",
-    "port": "7878"
-  },
-  "radarrConfig": {
-    "apiKey": "YOUR_RADARR_API_KEY",
-    "basePath": "/api/v3",
-    "port": "7878"
-  },
-  "sonarrConfig": {
-    "apiKey": "YOUR_SONARR_API_KEY",
-    "basePath": "/api/v3",
-    "port": "8989"
-  },
-  "server": {
-    "port": 3000
-  }
-}
+```bash
+NAS_IP=10.0.0.23
+RADARR_PORT=7878
+SONARR_PORT=8989
+RADARR_API_KEY=YOUR_RADARR_API_KEY
+RADARR_BASE_PATH=/api/v3
+SONARR_API_KEY=YOUR_SONARR_API_KEY
+SONARR_BASE_PATH=/api/v3
+MCP_SERVER_PORT=3000
 ```
 
 ## Available MCP Tools
